@@ -9,4 +9,5 @@
     <include file="scripts/002_ddl_createFilms.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003_ddl_createSessions.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_createTickets.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_insertPassword.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
