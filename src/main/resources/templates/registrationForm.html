@@ -14,8 +14,6 @@
             crossorigin="anonymous"></script>
     <title>Cinema</title>
 </head>
-<body>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="#">CINEMA</a>
@@ -27,10 +25,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Главная</a>
+                    <a class="nav-link" aria-current="page" th:href="@{/index}">Главная</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" th:href="@{/registrationForm}">Регистрация</a>
+                    <a class="nav-link active" aria-current="page" href="#">Регистрация</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
@@ -48,16 +46,37 @@
         </div>
     </div>
 </nav>
+<body>
 <div class="container mt-4">
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col" th:each="film:${films}">
-            <div class="card h-100">
-                <img class="card-img-top" th:src="@{|/poster/${film.id}|}" width="50">
-                <div class="card-body">
-                    <h5 class="card-title text-center" th:text="${film.name}"/>
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-header">
+            Регистрация нового пользователя
         </div>
+        <div th:if="${fail}" class="alert alert-danger" role="alert">
+            Пользователь с такой почтой или телефоном уже существует
+        </div>
+        <form class="p-3" th:action="@{/registration}" method="post">
+            <input type="hidden" name="id" value="0"/>
+            <div class="mb-3">
+                <label for="name" class="form-label">Имя пользователя:</label>
+                <input type="text" class="form-control" name="name" id="name" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Адрес электронной почты:</label>
+                <input type="email" class="form-control" name="email" id="email"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Телефон:</label>
+                <input type="number" class="form-control" name="phone" id="phone"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Пароль:</label>
+                <input type="password" class="form-control" name="password" id="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Регистрация</button>
+        </form>
     </div>
 </div>
 </body>

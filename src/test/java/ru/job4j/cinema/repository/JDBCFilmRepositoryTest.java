@@ -42,7 +42,7 @@ class JDBCFilmRepositoryTest {
     @Test
     public void whenSaveFilmThenGetTheSameFromDatabase() {
         Film film = new Film(1, "new Film", "new Description", new byte[]{1, 2});
-        assertThat(repository.save(film).get()).isEqualTo(film);
+        repository.save(film);
         Optional<Film> filmInDB = repository.findById(film.getId());
         assertThat(filmInDB.get()).isEqualTo(film);
     }

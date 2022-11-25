@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import ru.job4j.cinema.model.Film;
 import ru.job4j.cinema.service.JDBCFilmService;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,9 +41,10 @@ class FilmControllerTest {
                 new Film(1, "new film2", "new description2", new byte[]{2, 1})
         ));
         Model model = mock(Model.class);
+        HttpSession session = mock(HttpSession.class);
         when(service.findAll()).thenReturn(films);
-        String page = filmController.index(model);
-        verify(model).addAttribute("film", films);
+        String page = filmController.index(session, model);
+        verify(model).addAttribute("films", films);
         assertThat(page).isEqualTo("/index");
     }
 
