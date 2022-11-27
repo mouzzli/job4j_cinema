@@ -35,6 +35,9 @@
             </ul>
             <ul class="navbar-nav">
                 <div class="d-flex justify-content-end">
+                    <li class="nav-item" th:if="${user.isAdmin}">
+                        <a class="nav-link" aria-current="page" th:href="@{/admin}">Панель Администратора</a>
+                    </li>
                     <a class="nav-item nav-link" th:if="${user.name != 'Гость'}" th:href="@{/logout}">
                         <span th:text="${user.name}"></span>
                         <span> | Выйти</span>

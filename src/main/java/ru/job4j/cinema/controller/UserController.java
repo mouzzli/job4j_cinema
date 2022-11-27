@@ -1,6 +1,6 @@
 package ru.job4j.cinema.controller;
 
-import org.springframework.stereotype.Controller;;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +20,7 @@ public class UserController {
     /**
      * сервис для работы с юзером
      */
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -67,7 +67,7 @@ public class UserController {
      * @return страница со списком фильмов если авторизация прошла успешно,
      * в противном случае форму авторизации
      */
-    @PostMapping("login")
+    @PostMapping("/login")
     public String login(@ModelAttribute User user, HttpServletRequest request) {
         Optional<User> updatedUser = userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword());
         if (updatedUser.isEmpty()) {

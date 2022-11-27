@@ -70,7 +70,8 @@ public class JDBCUserRepository implements UserRepository {
                 it.getString("username"),
                 it.getString("email"),
                 it.getString("phone"),
-                it.getString("password")
+                it.getString("password"),
+                it.getBoolean("isAdmin")
         );
     }
 }

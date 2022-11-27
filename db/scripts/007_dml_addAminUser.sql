@@ -1,0 +1,1 @@
+INSERT INTO users (username, email, phone, password, isAdmin) values ('Admin', 'admin@mail.ru', '4234435"', 'adminPassword', 'true');
