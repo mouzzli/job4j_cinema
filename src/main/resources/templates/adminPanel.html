@@ -15,6 +15,123 @@
     <title>Cinema</title>
 </head>
 <body>
-<p>ADMIN PANEL</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">CINEMA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/index}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/registrationForm}">Регистрация</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <div class="d-flex justify-content-end">
+                    <li class="nav-item" th:if="${user.isAdmin}">
+                        <a class="nav-link active" aria-current="page" href="#">Панель Администратора</a>
+                    </li>
+                    <a class="nav-item nav-link" th:if="${user.name != 'Гость'}" th:href="@{/logout}">
+                        <span th:text="${user.name}"></span>
+                        <span> | Выйти</span>
+                    </a>
+                    <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/loginForm}">
+                        <span th:text="${user.name}"></span>
+                        <span> | Войти</span>
+                    </a>
+                </div>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex align-items-start container mt-4">
+    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button class="nav-link active" id="v-pills-add-film-tab" data-bs-toggle="pill"
+                data-bs-target="#v-pills-add-film" type="button" role="tab" aria-selected="false">Добавить фильм
+        </button>
+        <button class="nav-link" id="v-pills-delete-film-tab" data-bs-toggle="pill"
+                data-bs-target="#v-pills-delete-film" type="button" role="tab" aria-controls="v-pills-delete-film"
+                aria-selected="false">Удалить фильм
+        </button>
+        <button class="nav-link" id="v-pills-add-session-tab" data-bs-toggle="pill"
+                data-bs-target="#v-pills-add-session" type="button" role="tab" aria-controls="v-pills-add-session"
+                aria-selected="false">Добавить сеанс
+        </button>
+        <button class="nav-link" id="v-pills-delete-session-tab" data-bs-toggle="pill"
+                data-bs-target="#v-pills-delete-session" type="button" role="tab" aria-controls="v-pills-delete-session"
+                aria-selected="false">Удалить сеанс
+        </button>
+    </div>
+
+    <div class="tab-content" id="v-pills-tabContent">
+
+        <div class="tab-pane fade show active" role="tabpanel" id="v-pills-add-film">
+            <form class="ps-5" th:action="@{/addFilm}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="0"/>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Название фильма:</label>
+                    <input required type="text" class="form-control" name="name" id="name"
+                           aria-describedby="название фильма">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Описание:</label>
+                    <input required type="text" class="form-control" name="description" id="description">
+                </div>
+                <div class="mb-3">
+                    <label for="file" class="form-label">Постер:</label>
+                    <input required type="file" class="form-control" name="file" id="file">
+                </div>
+                <button type="submit" class="btn btn-secondary">Добавить</button>
+            </form>
+        </div>
+
+        <div class="tab-pane fade show" role="tabpanel" id="v-pills-delete-film">
+            <form class="form-group ps-5" th:action="@{/deleteFilm}" method="post">
+                <label class="form-label mt-3">Выберите фильм:</label>
+                <select class="form-select" aria-label="Default select example" name="film.id">
+                    <option th:each="film:${films}" th:value="${film.id}" th:text="${film.name}"></option>
+                </select>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-secondary mt-3">Удалить</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="tab-pane fade show" role="tabpanel" id="v-pills-add-session">
+            <form class="form-group ps-5" th:action="@{/addSession}" method="post">
+                <label class="form-label mt-3">Выберите фильм:</label>
+                <select class="form-select" aria-label="Default select example" name="film.id">
+                    <option th:each="film:${films}" th:value="${film.id}" th:text="${film.name}"></option>
+                </select>
+                <div class="mt-3">
+                    <label for="date" class="form-label">Дата сеанса:</label>
+                    <input type="datetime-local" class="form-control" id="date" name="date">
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-secondary mt-3">Добавить</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="tab-pane fade show" role="tabpanel" id="v-pills-delete-session">
+            <form class="form-group ps-5" th:action="@{/deleteSession}" method="post">
+                <label class="form-label mt-3">Выберите сеанс:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option></option>
+                </select>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-secondary mt-3">Удалить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
