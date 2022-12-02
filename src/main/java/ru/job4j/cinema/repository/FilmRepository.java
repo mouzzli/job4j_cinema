@@ -13,7 +13,7 @@ import java.util.Optional;
  */
 public interface FilmRepository {
     /**
-     * Возвращает List<Film> находящихся в данном репозитории
+     * Возвращает список фильмов находящихся в данном репозитории
      *
      * @return List<Film>
      * </Film>

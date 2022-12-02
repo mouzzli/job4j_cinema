@@ -79,7 +79,7 @@ class JDBCFilmRepositoryTest {
      * Обновляет фильм в БД, затем получает обновленную версию
      */
     @Test
-    public void whenUpdateThenGetFromDB() {
+    public void whenUpdateThenGetFromDatabase() {
         Film film = new Film(1, "new Film1", "new Description1", new byte[]{1, 2});
         repository.save(film);
         film.setName("updated name");

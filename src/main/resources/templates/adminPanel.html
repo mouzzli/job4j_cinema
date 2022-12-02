@@ -106,13 +106,14 @@
 
         <div class="tab-pane fade show" role="tabpanel" id="v-pills-add-session">
             <form class="form-group ps-5" th:action="@{/addSession}" method="post">
+                <input type="hidden" name="id" value="0"/>
                 <label class="form-label mt-3">Выберите фильм:</label>
-                <select class="form-select" aria-label="Default select example" name="film.id">
+                <select class="form-select" aria-label="Default select example" name="filmId">
                     <option th:each="film:${films}" th:value="${film.id}" th:text="${film.name}"></option>
                 </select>
                 <div class="mt-3">
-                    <label for="date" class="form-label">Дата сеанса:</label>
-                    <input type="datetime-local" class="form-control" id="date" name="date">
+                    <label for="date_time" class="form-label">Дата сеанса:</label>
+                    <input type="datetime-local" class="form-control" id="date_time" name="date_time">
                 </div>
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-secondary mt-3">Добавить</button>
@@ -123,8 +124,14 @@
         <div class="tab-pane fade show" role="tabpanel" id="v-pills-delete-session">
             <form class="form-group ps-5" th:action="@{/deleteSession}" method="post">
                 <label class="form-label mt-3">Выберите сеанс:</label>
-                <select class="form-select" aria-label="Default select example">
-                    <option></option>
+                <select class="form-select" aria-label="Default select example" name="session_id">
+                    <option th:each="filmSession:${sessions}" th:value="${filmSession.id}">
+                       <div th:each="film:${films}" th:if="${film.id == filmSession.filmId}">
+                           <div th:text="${film.name}"></div>
+                           :
+                           <div th:text="${#temporals.format(filmSession.dateTime, 'dd-MM-yyyy HH:mm')}"></div>
+                       </div>
+
                 </select>
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-secondary mt-3">Удалить</button>

@@ -12,4 +12,5 @@
     <include file="scripts/005_ddl_insertPassword.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_insertUserIsAdmin.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007_dml_addAminUser.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_addColumnDateTimeFromTableSession.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

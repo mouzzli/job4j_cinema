@@ -4,6 +4,11 @@ import ru.job4j.cinema.model.User;
 
 import java.util.Optional;
 
+/**
+ * Хранилище пользователей
+ *
+ * @see ru.job4j.cinema.model.User
+ */
 public interface UserRepository {
 
     /**
