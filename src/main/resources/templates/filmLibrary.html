@@ -39,5 +39,20 @@
         </div>
     </div>
 </nav>
+<div class="container mt-4" th:each="film:${films}">
+    <div class="row">
+        <div class="col-3">
+            <img class="img-thumbnail" th:src="@{|/files/${film.fileId}|}" width="300">
+        </div>
+        <div class="col">
+            <h3 th:text="${film.name}"></h3>
+            <p th:text="'Год Выпуска: ' + ${film.year}"></p>
+            <p th:text="'Жанр: ' + ${film.genre}"></p>
+            <p th:text="'Возрастное ограничение: ' + ${film.minimalAge} + '+'"></p>
+            <p th:text="'Длительность сеанса: ' + ${film.durationInMinutes}"></p>
+            <p th:text="${film.description}"></p>
+        </div>
+    </div>
+</div>
 </body>
 </html>
