@@ -13,12 +13,10 @@ import java.util.Optional;
 @Service
 public class SimpleFileService implements FileService {
     private final FileRepository fileRepository;
-    private final String storageDirectory;
 
     public SimpleFileService(FileRepository fileRepository,
                              @Value("file.directory") String storageDirectory) {
         this.fileRepository = fileRepository;
-        this.storageDirectory = storageDirectory;
         createStorageDirectory(storageDirectory);
     }
 
@@ -31,7 +29,7 @@ public class SimpleFileService implements FileService {
     }
 
     @Override
-    public Optional<FileDto> getFileById(int id) {
+    public Optional<FileDto> findById(int id) {
         var fileOptional = fileRepository.findById(id);
         if (fileOptional.isEmpty()) {
             return Optional.empty();
