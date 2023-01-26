@@ -6,8 +6,10 @@ import ru.job4j.cinema.model.Film;
 import ru.job4j.cinema.repository.FilmRepository;
 import ru.job4j.cinema.repository.GenreRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static ru.job4j.cinema.util.FilmUtil.createFilmDto;
 
 @Service
 public class FilmServiceImpl implements FilmService {
@@ -21,18 +23,12 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<FilmDto> findAll() {
+        List<FilmDto> filmDtoList = new ArrayList<>();
         var films = filmRepository.findAll();
-        return films.stream().map(this::convertToFilmDto).collect(Collectors.toList());
-    }
-
-    private FilmDto convertToFilmDto(Film film) {
-        return new FilmDto(
-                film.getName(),
-                film.getDescription(),
-                film.getYear(),
-                genreRepository.findById(film.getGenreId()).get().getName(),
-                film.getMinimalAge(),
-                film.getDurationInMinutes(),
-                film.getFileId());
+        for (Film film : films) {
+            var genre = genreRepository.findById(film.getGenreId()).get();
+            filmDtoList.add(createFilmDto(film, genre));
+        }
+        return filmDtoList;
     }
 }

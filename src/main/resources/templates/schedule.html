@@ -40,5 +40,18 @@
         </div>
     </div>
 </nav>
+<div class="list-group container mt-4" th:each="filmSession:${filmSessions}">
+    <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1" th:text="${filmSession.filmDto.name} + '  ' + ${#temporals.format(filmSession.startTime, 'YYYY-MM-dd HH:mm')}    "></h5>
+        </div>
+        <p class="mb-1" th:text="${filmSession.filmDto.minimalAge} + '+ ' + ${filmSession.filmDto.genre}"></p>
+        <small th:text="'Начало сеанса: ' + ${#temporals.format(filmSession.startTime, 'HH:mm')}"></small></br>
+        <small th:text="'Конец сенса: ' + ${#temporals.format(filmSession.endTime, 'HH:mm')}"></small></br>
+        <small th:text="'Продолжительность: ' + ${filmSession.filmDto.durationInMinutes} + ' мин.'"></small></br>
+        <small th:text="'Зал: ' + ${filmSession.hall.name}"></small>
+    </a>
+</div>
+
 </body>
 </html>

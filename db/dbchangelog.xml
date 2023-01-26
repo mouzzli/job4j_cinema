@@ -12,4 +12,6 @@
     <include file="scripts/002_dml_insert_files.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003_dml_insert_genres.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_dml_Insert_films.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_dml_insert_halls.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_dml_insert_film_session.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

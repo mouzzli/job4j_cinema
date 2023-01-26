@@ -61,7 +61,6 @@ public class Sql2oFilmRepository implements FilmRepository {
             var query = connection.createQuery(FIND_BY_ID)
                     .addParameter("id", id);
             var film = query.setColumnMappings(Film.COLUMN_MAPPING).executeAndFetchFirst(Film.class);
-            System.out.println(film);
             return Optional.ofNullable(film);
         }
     }
