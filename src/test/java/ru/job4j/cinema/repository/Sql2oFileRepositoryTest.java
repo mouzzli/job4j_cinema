@@ -43,8 +43,8 @@ class Sql2oFileRepositoryTest {
     @Test
     public void whenSaveThenGet() {
         var file = sql2oFileRepository.save(new File("test", "test"));
-        var savedFile = sql2oFileRepository.findById(file.getId());
-        assertThat(savedFile.get()).isEqualTo(file);
+        var savedFile = sql2oFileRepository.findById(file.getId()).get();
+        assertThat(savedFile).isEqualTo(file);
     }
 
     @Test

@@ -4,20 +4,21 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cinema.config.DatasourceConfiguration;
-import ru.job4j.cinema.model.Genre;
+import ru.job4j.cinema.model.Hall;
 
 import java.io.IOException;
 import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class Sql2oGenreRepositoryTest {
-    static Sql2oGenreRepository sql2oGenreRepository;
+class Sql2oHallRepositoryTest {
+
+    static Sql2oHallRepository sql2oHallRepository;
 
     @BeforeAll
     public static void initRepositories() throws IOException {
         var properties = new Properties();
-        try (var inputStream = Sql2oGenreRepository.class.getClassLoader().getResourceAsStream("connection.properties")) {
+        try (var inputStream = Sql2oHallRepositoryTest.class.getClassLoader().getResourceAsStream("connection.properties")) {
             properties.load(inputStream);
         }
         var url = properties.getProperty("datasource.url");
@@ -28,32 +29,32 @@ class Sql2oGenreRepositoryTest {
         var datasource = configuration.connectionPool(url, username, password);
         var sql2o = configuration.databaseClient(datasource);
 
-        sql2oGenreRepository = new Sql2oGenreRepository(sql2o);
+        sql2oHallRepository = new Sql2oHallRepository(sql2o);
     }
 
     @AfterEach
-    public void clearGenres() {
-        var genres = sql2oGenreRepository.findAll();
-        for (Genre genre : genres) {
-            sql2oGenreRepository.deleteById(genre.getId());
+    public void clearHalls() {
+        var halls = sql2oHallRepository.findAll();
+        for (Hall hall : halls) {
+            sql2oHallRepository.deleteById(hall.getId());
         }
     }
 
     @Test
     public void whenSaveThenGet() {
-        var genre = sql2oGenreRepository.save(new Genre("test"));
-        var savedGenre = sql2oGenreRepository.findById(genre.getId()).get();
-        assertThat(savedGenre).isEqualTo(genre);
+        var hall = sql2oHallRepository.save(new Hall("test12", 10, 20, "testDescription"));
+        var savedHall = sql2oHallRepository.findById(hall.getId()).get();
+        assertThat(savedHall).isEqualTo(hall);
     }
 
     @Test
     public void whenDeleteInvalidThenGetFalse() {
-        assertThat(sql2oGenreRepository.deleteById(0)).isFalse();
+        assertThat(sql2oHallRepository.deleteById(0)).isFalse();
     }
 
     @Test
     public void whenSaveThenDeleteAndGetTrue() {
-        var genre = sql2oGenreRepository.save(new Genre("test"));
-        assertThat(sql2oGenreRepository.deleteById(genre.getId())).isTrue();
+        var hall = sql2oHallRepository.save(new Hall("test12", 10, 20, "testDescription"));
+        assertThat(sql2oHallRepository.deleteById(hall.getId())).isTrue();
     }
 }

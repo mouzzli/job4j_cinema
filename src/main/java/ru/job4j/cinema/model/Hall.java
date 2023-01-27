@@ -26,6 +26,13 @@ public class Hall {
         this.description = description;
     }
 
+    public Hall(String name, int rowCount, int placeCount, String description) {
+        this.name = name;
+        this.rowCount = rowCount;
+        this.placeCount = placeCount;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }

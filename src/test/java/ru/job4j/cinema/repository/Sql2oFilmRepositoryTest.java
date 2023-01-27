@@ -38,7 +38,7 @@ public class Sql2oFilmRepositoryTest {
         sql2oFileRepository = new Sql2oFileRepository(sql2o);
 
         file = sql2oFileRepository.save(new File("test", "test"));
-        genre = sql2oGenreRepository.save(new Genre("1"));
+        genre = sql2oGenreRepository.save(new Genre("comedy"));
     }
 
     @AfterAll
@@ -75,8 +75,8 @@ public class Sql2oFilmRepositoryTest {
                 12,
                 120,
                 file.getId()));
-        var savedFilm = sql2oFilmRepository.findById(film.getId());
-        assertThat(savedFilm.get()).isEqualTo(film);
+        var savedFilm = sql2oFilmRepository.findById(film.getId()).get();
+        assertThat(savedFilm).isEqualTo(film);
     }
 
     @Test

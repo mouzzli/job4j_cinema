@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.job4j.cinema.service.FilmService;
 
 @Controller
-
 public class FilmController {
     private final FilmService filmService;
 
