@@ -14,7 +14,6 @@
             crossorigin="anonymous"></script>
     <title>Cinema</title>
 </head>
-<body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" th:href="@{/index}">CINEMA</a>
@@ -23,21 +22,40 @@
                 aria-expanded="false" aria-label="Переключатель навигации">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse me-auto" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a class="nav-item nav-link active" aria-current="page" href="#">Главная</a>
+                <a class="nav-item nav-link" aria-current="page" th:href="@{/index}">Главная</a>
                 <a class="nav-item nav-link" aria-current="page" th:href="@{/schedule}">Расписание</a>
                 <a class="nav-item nav-link" aria-current="page" th:href="@{/filmLibrary}">Кинотека</a>
             </ul>
             <ul class="navbar-nav">
                 <div class="d-flex justify-content-end">
-                    <a class="nav-link nav-item" th:href="@{/users/register}">Регистрация</a>
+                    <a class="nav-link nav-item active" href="#">Регистрация</a>
                     <a class="nav-link nav-item" th:href="@{/users/login}">Войти</a>
                 </div>
             </ul>
         </div>
     </div>
 </nav>
-
+<body>
+<div class="container mt-4">
+    <h4>Регистрация нового пользователя</h4>
+    <form th:action="@{/users/register}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="0">
+        <div class="mb-3">
+            <label for="fullName" class="form-label"><b>Имя</b></label>
+            <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Иванов Игорь" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label"><b>Почта</b></label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="example@mail.ru" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label"><b>Пароль</b></label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+</div>
 </body>
 </html>
