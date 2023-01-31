@@ -32,15 +32,24 @@ public class FilmSessionImpl implements FilmSessionService {
         List<FilmSessionDto> filmSessionDtoList = new ArrayList<>();
         var filmSession = filmSessionRepository.findAll();
         for (Session session : filmSession) {
-            var film = filmRepository.findById(session.getFilmId()).get();
-            var genre = genreRepository.findById(film.getGenreId()).get();
-            var hall = hallRepository.findById(session.getHallId()).get();
-            filmSessionDtoList.add(new FilmSessionDto(session.getId(),
-                    createFilmDto(film, genre),
-                    hall,
-                    session.getStartTime(),
-                    session.getEndTime()));
+            filmSessionDtoList.add(createFilmSessionDto(session));
         }
         return filmSessionDtoList;
+    }
+
+    private FilmSessionDto createFilmSessionDto(Session session) {
+        var film = filmRepository.findById(session.getFilmId()).get();
+        var genre = genreRepository.findById(film.getGenreId()).get();
+        var hall = hallRepository.findById(session.getHallId()).get();
+        return new FilmSessionDto(session.getId(),
+                createFilmDto(film, genre),
+                hall,
+                session.getStartTime(),
+                session.getEndTime());
+    }
+
+    @Override
+    public FilmSessionDto findById(int id) {
+        return createFilmSessionDto(filmSessionRepository.findById(id).get());
     }
 }

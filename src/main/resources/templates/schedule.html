@@ -41,7 +41,7 @@
     </div>
 </nav>
 <div class="list-group container mt-4" th:each="filmSession:${filmSessions}">
-    <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+    <a th:href="@{|/filmSession/${filmSession.id}|}" class="list-group-item list-group-item-action" aria-current="true">
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1" th:text="${filmSession.filmDto.name} + '  ' + ${#temporals.format(filmSession.startTime, 'YYYY-MM-dd HH:mm')}    "></h5>
         </div>

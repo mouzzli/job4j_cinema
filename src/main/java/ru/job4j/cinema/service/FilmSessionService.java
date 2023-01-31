@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface FilmSessionService {
     List<FilmSessionDto> findAll();
+
+    FilmSessionDto findById(int id);
 }

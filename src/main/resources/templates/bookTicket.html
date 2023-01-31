@@ -1,0 +1,84 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <!-- Обязательные метатеги -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <title>Cinema</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/index}">CINEMA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/index}">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/schedule}">Расписание</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/filmLibrary}">Кинотека</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="list-group container mt-4">
+    <div class="row">
+        <div class="col-3">
+            <img class="img-thumbnail" th:src="@{|/files/${filmSession.filmDto.fileId}|}" width="300">
+        </div>
+        <div class="col">
+            <h3 th:text="${filmSession.filmDto.name}"></h3>
+            <h6 th:text="'Начало сенаса ' + ${#temporals.format(filmSession.startTime, 'HH:mm')}"></h6>
+            <h6 th:text="'Конец сенса: ' + ${#temporals.format(filmSession.endTime, 'HH:mm')}"></h6>
+            <p th:text="'Продолжительность: ' + ${filmSession.filmDto.durationInMinutes} + ' мин.'"></p>
+            <p th:text="'Зал: ' + ${filmSession.hall.name} + ' - ' + ${filmSession.hall.description}"></p>
+            <p th:text="'Год Выпуска: ' + ${filmSession.filmDto.year}"></p>
+            <p th:text="'Жанр: ' + ${filmSession.filmDto.genre}"></p>
+            <p th:text="'Возрастное ограничение: ' + ${filmSession.filmDto.minimalAge} + '+'"></p>
+            <p th:text="'Длительность сеанса: ' + ${filmSession.filmDto.durationInMinutes}"></p>
+            <p th:text="${filmSession.filmDto.description}"></p>
+        </div>
+        <form th:action="@{/boockTicket}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="filmSession.id">
+            <div class="form-group">
+                <label for="rowCount">Ряд
+                    <select class="form-select form-select-lg mb-3" id="rowCount" name="rowCount">
+                        <option th:each="i : ${#numbers.sequence( 1, filmSession.hall.rowCount)}"
+                                th:value="${i}"
+                                th:text="${i}">
+                        </option>
+                    </select>
+                </label>
+                <label for="placeCount">Mесто
+                    <select class="form-select form-select-lg mb-3" id="placeCount" name="placeCount">
+                        <option th:each="i : ${#numbers.sequence( 1, filmSession.hall.placeCount)}"
+                                th:value="${i}"
+                                th:text="${i}">
+                        </option>
+                    </select>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Забронировать</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
