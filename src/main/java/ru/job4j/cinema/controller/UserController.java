@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.job4j.cinema.model.User;
 import ru.job4j.cinema.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -25,12 +28,37 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(Model model, @ModelAttribute User user) {
+    public String register(Model model, @ModelAttribute User user, HttpServletRequest request) {
         var savedUser = userService.save(user);
         if (savedUser.isEmpty()) {
             model.addAttribute("message", "Пользователь с такой почтой уже существует");
             return "errors/404";
         }
+        var session = request.getSession();
+        session.setAttribute("user", savedUser.get());
         return "redirect:/index";
+    }
+
+    @GetMapping("/login")
+    public String getLoginForm() {
+        return "loginForm";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@ModelAttribute User user, Model model, HttpServletRequest request) {
+        var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+        if (userOptional.isEmpty()) {
+            model.addAttribute("error", "Почта или пароль введены неверно");
+            return "loginForm";
+        }
+        var session = request.getSession();
+        session.setAttribute("user", userOptional.get());
+        return "redirect:/index";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/users/login";
     }
 }

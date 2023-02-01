@@ -14,7 +14,6 @@
             crossorigin="anonymous"></script>
     <title>Cinema</title>
 </head>
-<body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" th:href="@{/index}">CINEMA</a>
@@ -23,39 +22,39 @@
                 aria-expanded="false" aria-label="Переключатель навигации">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse me-auto" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <a class="nav-item nav-link" aria-current="page" th:href="@{/index}">Главная</a>
                 <a class="nav-item nav-link" aria-current="page" th:href="@{/schedule}">Расписание</a>
-                <a class="nav-item nav-link active" aria-current="page" href="#">Кинотека</a>
+                <a class="nav-item nav-link" aria-current="page" th:href="@{/filmLibrary}">Кинотека</a>
             </ul>
             <ul class="navbar-nav">
-                <div class="d-flex justify-content-end" th:if="${user.fullName == 'Гость'}">
-                    <a class="nav-link nav-item" th:href="@{/users/register}">Регистрация</a>
-                    <a class="nav-link nav-item" th:href="@{/users/login}">Войти</a>
-                </div>
-                <div class="d-flex justify-content-end" th:if="${user.fullName != 'Гость'}">
-                    <a class="nav-link nav-item" href="#" th:text="${user.fullName}"></a>
-                    <a class="nav-link nav-item" th:href="@{/users/logout}">Выйти</a>
+                <div class="d-flex justify-content-end">
+                    <a class="nav-link nav-item " th:href="@{/users/register}">Регистрация</a>
+                    <a class="nav-link nav-item active" href="#">Войти</a>
                 </div>
             </ul>
         </div>
     </div>
 </nav>
-<div class="container mt-4" th:each="film:${films}">
-    <div class="row">
-        <div class="col-3">
-            <img class="img-thumbnail" th:src="@{|/files/${film.fileId}|}" width="300">
+<body>
+<div class="container mt-4">
+    <h4>Аутентефикация</h4>
+    <form th:action="@{/users/login}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="0">
+        <div class="mb-3" th:if="${error}">
+            <p class="text-danger" th:text="${error}"></p>
         </div>
-        <div class="col">
-            <h3 th:text="${film.name}"></h3>
-            <p th:text="'Год Выпуска: ' + ${film.year}"></p>
-            <p th:text="'Жанр: ' + ${film.genre}"></p>
-            <p th:text="'Возрастное ограничение: ' + ${film.minimalAge} + '+'"></p>
-            <p th:text="'Длительность сеанса: ' + ${film.durationInMinutes}"></p>
-            <p th:text="${film.description}"></p>
+        <div class="mb-3">
+            <label for="email" class="form-label"><b>Почта</b></label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="example@mail.ru" required>
         </div>
-    </div>
+        <div class="mb-3">
+            <label for="password" class="form-label"><b>Пароль</b></label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
 </div>
 </body>
 </html>
