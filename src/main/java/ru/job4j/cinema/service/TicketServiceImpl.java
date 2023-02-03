@@ -13,7 +13,7 @@ public class TicketServiceImpl implements TicketService {
     public TicketServiceImpl(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
-    
+
     @Override
     public Optional<Ticket> save(Ticket ticket) {
         return ticketRepository.save(ticket);

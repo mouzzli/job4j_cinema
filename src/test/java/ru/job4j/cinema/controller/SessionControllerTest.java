@@ -9,7 +9,6 @@ import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.model.Hall;
 import ru.job4j.cinema.service.FilmSessionService;
 
-import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,9 +40,8 @@ class SessionControllerTest {
                         LocalDateTime.of(2022, 2, 10, 11, 20)));
 
         Model model = Mockito.mock(Model.class);
-        HttpSession session = Mockito.mock(HttpSession.class);
         Mockito.when(filmSessionService.findAll()).thenReturn(filmSessionDtoList);
-        String page = sessionController.sessionSchedule(model, session);
+        String page = sessionController.sessionSchedule(model);
         Mockito.verify(model).addAttribute("filmSessions", filmSessionDtoList);
         assertThat(page).isEqualTo("schedule");
     }
