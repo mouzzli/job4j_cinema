@@ -28,6 +28,6 @@ public class SessionController {
     public String filmSession(Model model, @PathVariable int id, HttpSession session) {
         model.addAttribute("filmSession", filmSessionService.findById(id));
         Session.setSession(model, session);
-        return "bookTicket";
+        return "filmSession";
     }
 }

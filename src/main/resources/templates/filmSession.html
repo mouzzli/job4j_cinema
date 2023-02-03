@@ -61,19 +61,21 @@
             <p th:text="'Длительность сеанса: ' + ${filmSession.filmDto.durationInMinutes}"></p>
             <p th:text="${filmSession.filmDto.description}"></p>
         </div>
-        <form th:action="@{/boockTicket}" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="filmSession.id">
+        <form th:action="@{/bookTicket}" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="sessionId" th:value="${filmSession.id}">
+            <input type="hidden" name="userId" th:value="${user.id}">
+            <input type="hidden" name="id" value="0">
             <div class="form-group">
-                <label for="rowCount">Ряд
-                    <select class="form-select form-select-lg mb-3" id="rowCount" name="rowCount">
+                <label for="rowNumber">Ряд
+                    <select class="form-select form-select-lg mb-3" id="rowNumber" name="rowNumber">
                         <option th:each="i : ${#numbers.sequence( 1, filmSession.hall.rowCount)}"
                                 th:value="${i}"
                                 th:text="${i}">
                         </option>
                     </select>
                 </label>
-                <label for="placeCount">Mесто
-                    <select class="form-select form-select-lg mb-3" id="placeCount" name="placeCount">
+                <label for="placeNumber">Mесто
+                    <select class="form-select form-select-lg mb-3" id="placeNumber" name="placeNumber">
                         <option th:each="i : ${#numbers.sequence( 1, filmSession.hall.placeCount)}"
                                 th:value="${i}"
                                 th:text="${i}">
@@ -81,7 +83,7 @@
                     </select>
                 </label>
             </div>
-            <button type="submit" class="btn btn-primary">Забронировать</button>
+            <button type="submit" class="btn btn-primary">Купить</button>
         </form>
     </div>
 </div>

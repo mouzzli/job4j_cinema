@@ -14,13 +14,13 @@ import java.util.List;
 import static ru.job4j.cinema.util.FilmUtil.createFilmDto;
 
 @Service
-public class FilmSessionImpl implements FilmSessionService {
+public class FilmSessionServiceImpl implements FilmSessionService {
     private final FilmSessionRepository filmSessionRepository;
     private final GenreRepository genreRepository;
     private final FilmRepository filmRepository;
     private final HallRepository hallRepository;
 
-    public FilmSessionImpl(FilmSessionRepository filmSessionRepository, FilmRepository filmRepository, HallRepository hallRepository, GenreRepository genreRepository) {
+    public FilmSessionServiceImpl(FilmSessionRepository filmSessionRepository, FilmRepository filmRepository, HallRepository hallRepository, GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
         this.hallRepository = hallRepository;
         this.filmSessionRepository = filmSessionRepository;
