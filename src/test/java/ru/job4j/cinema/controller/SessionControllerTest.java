@@ -45,4 +45,15 @@ class SessionControllerTest {
         Mockito.verify(model).addAttribute("filmSessions", filmSessionDtoList);
         assertThat(page).isEqualTo("schedule");
     }
+
+    @Test
+    public void filmSession() {
+        int id = 1;
+        FilmSessionDto filmSessionDto = Mockito.mock(FilmSessionDto.class);
+        Model model = Mockito.mock(Model.class);
+        Mockito.when(filmSessionService.findById(id)).thenReturn(filmSessionDto);
+        String page = sessionController.filmSession(model, id);
+        Mockito.verify(model).addAttribute("filmSession", filmSessionDto);
+        assertThat(page).isEqualTo("filmSession");
+    }
 }
