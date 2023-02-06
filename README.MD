@@ -1,4 +1,5 @@
 # Job4j_Cinema
+[![Build](https://github.com/mouzzli/job4j_cinema/actions/workflows/build.yml/badge.svg)](https://github.com/mouzzli/job4j_cinema/actions/workflows/build.yml)
 
 ## Описание проекта
 Сайт по покупке билетов в кино. Реализована возможность выбора конкретного сеанса и места.
