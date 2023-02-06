@@ -29,14 +29,15 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(Model model, @ModelAttribute User user, HttpServletRequest request) {
-        var savedUser = userService.save(user);
-        if (savedUser.isEmpty()) {
-            model.addAttribute("message", "Пользователь с такой почтой уже существует");
+        try {
+            var savedUser = userService.save(user);
+            var session = request.getSession();
+            session.setAttribute("user", savedUser);
+            return "redirect:/index";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("message", e.getMessage());
             return "errors/404";
         }
-        var session = request.getSession();
-        session.setAttribute("user", savedUser.get());
-        return "redirect:/index";
     }
 
     @GetMapping("/login")
@@ -46,14 +47,15 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(Model model, @ModelAttribute User user, HttpServletRequest request) {
-        var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
-        if (userOptional.isEmpty()) {
-            model.addAttribute("error", "Почта или пароль введены неверно");
+        try {
+            var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+            var session = request.getSession();
+            session.setAttribute("user", userOptional);
+            return "redirect:/index";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
             return "loginForm";
         }
-        var session = request.getSession();
-        session.setAttribute("user", userOptional.get());
-        return "redirect:/index";
     }
 
     @GetMapping("/logout")

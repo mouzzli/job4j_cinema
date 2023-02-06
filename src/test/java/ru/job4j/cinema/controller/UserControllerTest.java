@@ -9,7 +9,6 @@ import ru.job4j.cinema.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,7 +34,7 @@ class UserControllerTest {
         Model model = Mockito.mock(Model.class);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         User user = Mockito.mock(User.class);
-        Mockito.when(userService.save(user)).thenReturn(Optional.empty());
+        Mockito.when(userService.save(user)).thenThrow(new IllegalArgumentException("Пользователь с такой почтой уже существует"));
         String page = userController.register(model, user, request);
         Mockito.verify(model).addAttribute("message", "Пользователь с такой почтой уже существует");
         assertThat(page).isEqualTo("errors/404");
@@ -47,7 +46,7 @@ class UserControllerTest {
         Model model = Mockito.mock(Model.class);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         User user = Mockito.mock(User.class);
-        Mockito.when(userService.save(user)).thenReturn(Optional.of(user));
+        Mockito.when(userService.save(user)).thenReturn(user);
         Mockito.when(request.getSession()).thenReturn(session);
         String page = userController.register(model, user, request);
         Mockito.verify(session).setAttribute("user", user);
@@ -65,9 +64,9 @@ class UserControllerTest {
         User user = Mockito.mock(User.class);
         Model model = Mockito.mock(Model.class);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-        Mockito.when(userService.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.empty());
+        Mockito.when(userService.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenThrow(new IllegalArgumentException("Пользователь с такой почтой или паролем не найден"));
         String page = userController.loginUser(model, user, request);
-        Mockito.verify(model).addAttribute("error", "Почта или пароль введены неверно");
+        Mockito.verify(model).addAttribute("error", "Пользователь с такой почтой или паролем не найден");
         assertThat(page).isEqualTo("loginForm");
     }
 
@@ -77,7 +76,7 @@ class UserControllerTest {
         User user = Mockito.mock(User.class);
         Model model = Mockito.mock(Model.class);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-        Mockito.when(userService.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(Optional.of(user));
+        Mockito.when(userService.findByEmailAndPassword(user.getEmail(), user.getPassword())).thenReturn(user);
         Mockito.when(request.getSession()).thenReturn(session);
         String page = userController.loginUser(model, user, request);
         Mockito.verify(session).setAttribute("user", user);
