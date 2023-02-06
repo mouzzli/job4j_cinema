@@ -11,6 +11,7 @@ import ru.job4j.cinema.service.FilmSessionService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,6 +48,16 @@ class SessionControllerTest {
     }
 
     @Test
+    public void whenSessionScheduleThrowException() {
+        Model model = Mockito.mock(Model.class);
+        String message = "Film can't be empty";
+        Mockito.when(filmSessionService.findAll()).thenThrow(new NoSuchElementException(message));
+        String page = sessionController.sessionSchedule(model);
+        Mockito.verify(model).addAttribute("message", message);
+        assertThat(page).isEqualTo("errors/404");
+    }
+
+    @Test
     public void filmSession() {
         int id = 1;
         FilmSessionDto filmSessionDto = Mockito.mock(FilmSessionDto.class);
@@ -55,5 +66,16 @@ class SessionControllerTest {
         String page = sessionController.filmSession(model, id);
         Mockito.verify(model).addAttribute("filmSession", filmSessionDto);
         assertThat(page).isEqualTo("filmSession");
+    }
+
+    @Test
+    public void filmSessionWhenThrowException() {
+        int id = 1;
+        Model model = Mockito.mock(Model.class);
+        String message = "Session can't be empty";
+        Mockito.when(filmSessionService.findById(id)).thenThrow(new NoSuchElementException(message));
+        String page = sessionController.filmSession(model, id);
+        Mockito.verify(model).addAttribute("message", message);
+        assertThat(page).isEqualTo("errors/404");
     }
 }

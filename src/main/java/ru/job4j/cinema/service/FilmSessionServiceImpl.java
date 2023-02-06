@@ -10,6 +10,7 @@ import ru.job4j.cinema.repository.HallRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static ru.job4j.cinema.util.FilmUtil.createFilmDto;
 
@@ -38,18 +39,31 @@ public class FilmSessionServiceImpl implements FilmSessionService {
     }
 
     private FilmSessionDto createFilmSessionDto(Session session) {
-        var film = filmRepository.findById(session.getFilmId()).get();
-        var genre = genreRepository.findById(film.getGenreId()).get();
-        var hall = hallRepository.findById(session.getHallId()).get();
+        var film = filmRepository.findById(session.getFilmId());
+        if (film.isEmpty()) {
+            throw new NoSuchElementException("Film can't be empty");
+        }
+        var genre = genreRepository.findById(film.get().getGenreId());
+        if (genre.isEmpty()) {
+            throw new NoSuchElementException("Genre can't be empty");
+        }
+        var hall = hallRepository.findById(session.getHallId());
+        if (hall.isEmpty()) {
+            throw new NoSuchElementException("Hall can't be empty");
+        }
         return new FilmSessionDto(session.getId(),
-                createFilmDto(film, genre),
-                hall,
+                createFilmDto(film.get(), genre.get()),
+                hall.get(),
                 session.getStartTime(),
                 session.getEndTime());
     }
 
     @Override
     public FilmSessionDto findById(int id) {
-        return createFilmSessionDto(filmSessionRepository.findById(id).get());
+        var optionalFilmSession = filmSessionRepository.findById(id);
+        if (optionalFilmSession.isEmpty()) {
+            throw new NoSuchElementException("Session can't be empty");
+        }
+        return createFilmSessionDto(optionalFilmSession.get());
     }
 }
