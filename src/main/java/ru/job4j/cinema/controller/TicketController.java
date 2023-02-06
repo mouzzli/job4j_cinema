@@ -20,13 +20,14 @@ public class TicketController {
 
     @PostMapping("/bookTicket")
     public String bookTicket(Model model, @ModelAttribute Ticket ticket) {
-        var optionalTicket = ticketService.save(ticket);
-        if (optionalTicket.isEmpty()) {
-            model.addAttribute("message", "Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
+        try {
+            var optionalTicket = ticketService.save(ticket);
+            model.addAttribute("ticket", optionalTicket);
+            model.addAttribute("filmSession", filmSessionService.findById(optionalTicket.getSessionId()));
+            return "ticket";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("message", e.getMessage());
             return "errors/404";
         }
-        model.addAttribute("ticket", optionalTicket.get());
-        model.addAttribute("filmSession", filmSessionService.findById(optionalTicket.get().getSessionId()));
-        return "ticket";
     }
 }

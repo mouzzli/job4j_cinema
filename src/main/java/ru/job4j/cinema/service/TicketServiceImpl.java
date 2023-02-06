@@ -4,8 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.repository.TicketRepository;
 
-import java.util.Optional;
-
 @Service
 public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
@@ -15,7 +13,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Optional<Ticket> save(Ticket ticket) {
-        return ticketRepository.save(ticket);
+    public Ticket save(Ticket ticket) {
+        var optionalTicket = ticketRepository.save(ticket);
+        if (optionalTicket.isEmpty()) {
+            throw new IllegalArgumentException("Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
+        }
+        return optionalTicket.get();
     }
 }

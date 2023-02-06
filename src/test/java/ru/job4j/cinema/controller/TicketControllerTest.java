@@ -9,8 +9,6 @@ import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.service.FilmSessionService;
 import ru.job4j.cinema.service.TicketService;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TicketControllerTest {
@@ -29,7 +27,7 @@ class TicketControllerTest {
     public void bookTicketWhenEmptyTicket() {
         Model model = Mockito.mock(Model.class);
         Ticket ticket = Mockito.mock(Ticket.class);
-        Mockito.when(ticketService.save(ticket)).thenReturn(Optional.empty());
+        Mockito.when(ticketService.save(ticket)).thenThrow(new IllegalArgumentException("Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова."));
         String page = ticketController.bookTicket(model, ticket);
         Mockito.verify(model).addAttribute("message", "Не удалось приобрести билет на заданное место. Вероятно оно уже занято. Перейдите на страницу бронирования билетов и попробуйте снова.");
         assertThat(page).isEqualTo("errors/404");
@@ -40,12 +38,11 @@ class TicketControllerTest {
         FilmSessionDto filmSessionDto = Mockito.mock(FilmSessionDto.class);
         Model model = Mockito.mock(Model.class);
         Ticket ticket = Mockito.mock(Ticket.class);
-        Mockito.when(ticketService.save(ticket)).thenReturn(Optional.of(ticket));
+        Mockito.when(ticketService.save(ticket)).thenReturn(ticket);
         Mockito.when(filmSessionService.findById(ticket.getSessionId())).thenReturn(filmSessionDto);
         String page = ticketController.bookTicket(model, ticket);
         Mockito.verify(model).addAttribute("ticket", ticket);
         Mockito.verify(model).addAttribute("filmSession", filmSessionDto);
         assertThat(page).isEqualTo("ticket");
     }
-
 }
