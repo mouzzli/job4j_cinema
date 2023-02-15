@@ -74,11 +74,11 @@ public class Session {
             return false;
         }
         Session session = (Session) o;
-        return id == session.id && filmId == session.filmId && hallId == session.hallId && Objects.equals(startTime, session.startTime) && Objects.equals(endTime, session.endTime);
+        return id == session.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, filmId, hallId, startTime, endTime);
+        return Objects.hash(id);
     }
 }

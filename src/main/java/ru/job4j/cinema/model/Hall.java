@@ -82,11 +82,11 @@ public class Hall {
             return false;
         }
         Hall hall = (Hall) o;
-        return id == hall.id && rowCount == hall.rowCount && placeCount == hall.placeCount && Objects.equals(name, hall.name) && Objects.equals(description, hall.description);
+        return id == hall.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, rowCount, placeCount, description);
+        return Objects.hash(id);
     }
 }
